@@ -4,7 +4,9 @@ import {
     getAuth, 
     signInWithEmailAndPassword, 
     GoogleAuthProvider, 
-    signInWithPopup 
+    signInWithPopup,
+    signOut,
+    createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // CONFIGURAÇÃO DO SEU PROJETO FIREBASE
@@ -45,8 +47,8 @@ loginForm.addEventListener("submit", async (event) => {
         console.log("Login efetuado com sucesso (E-mail):", user);
         alert(`Bem-vindo, ${user.email}!`);
         
-        // Redirecione o usuário ou mude o estado da tela aqui:
-        // window.location.href = "dashboard.html";
+        // Redireciona o usuário para o dashboard após login com sucesso
+        window.location.href = "dashboard.html";
         
     } catch (error) {
         console.error("Erro ao fazer login com e-mail:", error.code, error.message);
@@ -70,14 +72,57 @@ btnGoogle.addEventListener("click", async () => {
         console.log("Login efetuado com sucesso (Google):", user);
         alert(`Bem-vindo, ${user.displayName}!`);
         
-        // Redirecione o usuário aqui:
-        // window.location.href = "dashboard.html";
+        // Redireciona o usuário para o dashboard após login com sucesso
+        window.location.href = "dashboard.html";
 
     } catch (error) {
         console.error("Erro ao fazer login com o Google:", error.code, error.message);
         alert("Falha na autenticação com o Google. Tente novamente.");
     }
 });
+
+// ==========================================
+// 3. Logout (Sair)
+// ==========================================
+const btnLogout = document.getElementById("btn-logout");
+
+if (btnLogout) {
+    btnLogout.addEventListener("click", async () => {
+        try {
+            await signOut(auth);
+            alert("Você saiu da sua conta com sucesso!");
+            // Se desejar, redirecione o usuário de volta para a tela de login aqui:
+            // window.location.href = "index.html"; 
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+            alert("Ocorreu um erro ao tentar sair.");
+        }
+    });
+}
+
+// ==========================================
+// 4. Cadastro de Novo Usuário (Sign Up)
+// ==========================================
+const registerForm = document.getElementById("register-form");
+
+if (registerForm) {
+    registerForm.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Evita o recarregamento da página
+
+        const email = document.getElementById("register-email").value;
+        const password = document.getElementById("register-password").value;
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            alert(`Conta criada com sucesso! Bem-vindo, ${user.email}!`);
+            window.location.href = "dashboard.html";
+        } catch (error) {
+            console.error("Erro ao criar conta:", error.code, error.message);
+            tratarErrosAuth(error.code);
+        }
+    });
+}
 
 // ==========================================
 // Função Auxiliar para Mensagens de Erro (PT-BR)
@@ -98,6 +143,12 @@ function tratarErrosAuth(errorCode) {
             break;
         case "auth/wrong-password":
             alert("Senha incorreta. Tente novamente.");
+            break;
+        case "auth/email-already-in-use":
+            alert("Este e-mail já está em uso por outra conta.");
+            break;
+        case "auth/weak-password":
+            alert("A senha é muito fraca. Use pelo menos 6 caracteres.");
             break;
         default:
             alert("Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.");
