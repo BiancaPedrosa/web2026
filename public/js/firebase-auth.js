@@ -34,52 +34,56 @@ const googleProvider = new GoogleAuthProvider();
 // ==========================================
 const loginForm = document.getElementById("login-form");
 
-loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault(); // Evita o recarregamento da página
+if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Evita o recarregamento da página
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        
-        console.log("Login efetuado com sucesso (E-mail):", user);
-        alert(`Bem-vindo, ${user.email}!`);
-        
-        // Redireciona o usuário para o dashboard após login com sucesso
-        window.location.href = "dashboard.html";
-        
-    } catch (error) {
-        console.error("Erro ao fazer login com e-mail:", error.code, error.message);
-        tratarErrosAuth(error.code);
-    }
-});
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            
+            console.log("Login efetuado com sucesso (E-mail):", user);
+            alert(`Bem-vindo, ${user.email}!`);
+            
+            // Redireciona o usuário para o dashboard após login com sucesso
+            window.location.href = "dashboard.html";
+            
+        } catch (error) {
+            console.error("Erro ao fazer login com e-mail:", error.code, error.message);
+            tratarErrosAuth(error.code);
+        }
+    });
+}
 
 // ==========================================
 // 2. Autenticação com o Google
 // ==========================================
 const btnGoogle = document.getElementById("btn-google");
 
-btnGoogle.addEventListener("click", async () => {
-    try {
-        const result = await signInWithPopup(auth, googleProvider);
-        // Opcional: obtém o Token de acesso do Google se precisar consumir APIs externas
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        
-        const user = result.user;
-        console.log("Login efetuado com sucesso (Google):", user);
-        alert(`Bem-vindo, ${user.displayName}!`);
-        
-        // Redireciona o usuário para o dashboard após login com sucesso
-        window.location.href = "dashboard.html";
+if (btnGoogle) {
+    btnGoogle.addEventListener("click", async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            // Opcional: obtém o Token de acesso do Google se precisar consumir APIs externas
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            
+            const user = result.user;
+            console.log("Login efetuado com sucesso (Google):", user);
+            alert(`Bem-vindo, ${user.displayName}!`);
+            
+            // Redireciona o usuário para o dashboard após login com sucesso
+            window.location.href = "dashboard.html";
 
-    } catch (error) {
-        console.error("Erro ao fazer login com o Google:", error.code, error.message);
-        alert("Falha na autenticação com o Google. Tente novamente.");
-    }
-});
+        } catch (error) {
+            console.error("Erro ao fazer login com o Google:", error.code, error.message);
+            alert("Falha na autenticação com o Google. Tente novamente.");
+        }
+    });
+}
 
 // ==========================================
 // 3. Logout (Sair)
