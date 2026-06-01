@@ -163,3 +163,9 @@ body {
 .login-footer a:hover {
     text-decoration: underline;
 }
+
+/* Exemplo de CSS personalizado para o fundo da página de login */
+body.bg-light {
+    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%) !important;
+    height: 100vh;
+}
