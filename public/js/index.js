@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 // Configuração do projeto Firebase
-import { firebaseConfig } from "./FIREBASECONFIG.js"; // Importa a configuração do Firebase de um arquivo separado
+import { firebaseConfig } from "./firebaseConfig.js"; // Importa a configuração do Firebase de um arquivo separado
 
 // Inicializa o Firebase e o Banco de Dados
 const app = initializeApp(firebaseConfig);

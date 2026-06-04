@@ -2,9 +2,7 @@ import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebase
 import { getDatabase, ref, get, set, update, remove, onValue, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-import { firebaseConfig } from "./FIREBASECONFIG.js";
-
-
+import {firebaseConfig} from "./firebaseConfig.js"; // Importa a configuração do Firebase de um arquivo separado
 
 // Evita inicializar o app duas vezes caso o firebase-auth.js já tenha inicializado na mesma página
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();

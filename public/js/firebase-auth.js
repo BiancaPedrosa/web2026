@@ -10,7 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // CONFIGURAÇÃO DO SEU PROJETO FIREBASE
-import { firebaseConfig } from "./FIREBASECONFIG.js"; // Importa a configuração do Firebase de um arquivo separado
+import { firebaseConfig } from "./firebaseConfig.js"; // Importa a configuração do Firebase de um arquivo separado
 
 
 // Inicializa o Firebase
